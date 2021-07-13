@@ -42,12 +42,16 @@ font-weight: 400;
 font-size: 0.9rem;
 `;
 
-const Note =({name,noteText}) =>{
+const Note =({name,text,date}) =>{
+
+
+
+
     return(
-        <NoteContainer>
+        <NoteContainer onClick={}>
             <NoteName>{name}</NoteName>
-            <NoteDate>10 Mar 2021</NoteDate>
-            <NoteText>{noteText}</NoteText>
+            <NoteDate>{date}</NoteDate>
+            <NoteText>{text}</NoteText>
            
         </NoteContainer>
     );

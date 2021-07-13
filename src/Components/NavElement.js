@@ -17,11 +17,11 @@ export const NavIcon = styled.img`
 `;
 
 export const NavName = styled.h4`
- 
+    color: #a9a9a9;
 
 `;
 const checkCountOpacity=({count})=>{
-    if(count == 0){
+    if(count === 0){
         return 0;
     }else{
         return 1;
@@ -32,13 +32,15 @@ export const NavCount = styled.h5`
     position: absolute;
     right: 3rem;
     
-    background-color: #01ded4;
+    background-color: #183A37;
     width:25px;
     height: 25px;
     color: white;
     border-radius: 50%;
-    padding: 2px;
+    padding: 4px;
     text-align: center;
+    
+    font-size: .7em;
 
 `;
 

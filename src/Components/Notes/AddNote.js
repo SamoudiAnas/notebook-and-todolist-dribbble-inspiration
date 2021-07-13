@@ -201,16 +201,7 @@ export const Button2 = styled.button`
 
 
 
-const AddNote = ({
-  noteName,
-  setNoteName,
-  noteText,
-  setNoteText,
-  noteDate,
-  setNoteDate,
-  notes,
-  setNotes,
-}) => {
+const AddNote = ({noteName,setNoteName,noteText,setNoteText,notes,setNotes}) => {
   /*
 ################################################################
 ####    TO SAVE CHANGE TO A NOTE NAME 

@@ -12,29 +12,48 @@ function App() {
     ###########################################################################################
 
   */
+    
+
+
   const [noteName, setNoteName] = useState("");
   const [noteText, setNoteText] = useState("");
+  
+  
+  const [previewState, setPreviewState] = useState("Add note");
+  const [selectedNote, setSelectedNote] = useState();
+  
   const [notes, setNotes] = useState([]);
-  const [previewState, setpreviewState] = useState("Add note");
-
-  const [preview, setPreview] = useState("");
-
-
-
+  
+  const [view, setView] = useState();
   /*
     ###########################################################################################
     ######################                    useEffect                   ######################
     ###########################################################################################
 
   */
-    useEffect(() => {
-      setPreview(previewState);
+
+
+   /* useEffect(() => {
+      setPreviewState(previewState);
       
     }, [previewState]);
   
+*/
+const firstView=()=>{
+  if(previewState === "Add note"){
+    {
+        setView(<AddNote 
+          noteName={noteName} setNoteName={setNoteName}
+          noteText={noteText} setNoteText={setNoteText} 
+          notes={notes} setNotes={setNotes}>
+      </AddNote>);
+                     }
+}
+}
 
-
-
+useEffect(() => {
+ firstView();
+}, []);
 
 
 
@@ -51,15 +70,9 @@ function App() {
                 1- ADD NOTE
                 2- PREVIEW A CLICKED/SELECTED NOTE
 */
-    
-    if(previewState === "Add note"){
-        {
-            preview =<AddNote 
-                            noteName={noteName} setNoteName={setNoteName}
-                            noteText={noteText} setNoteText={setNoteText} 
-                            notes={notes} setNotes={setNotes}>
-                         </AddNote>;}
-    }/*else if(previewState === "Preview note"){
+      
+      
+    /*else if(previewState === "Preview note"){
           preview=<PreviewNote
                           note
                           
@@ -68,11 +81,10 @@ function App() {
 
   return (<>
     <Sidebar />
-    <Bar notes={notes}/>
+    <Bar notes={notes} previewState={previewState} setPreviewState={setPreviewState}/>
     {
-      preview
+      view
     }
-    
  </> );
 }
 

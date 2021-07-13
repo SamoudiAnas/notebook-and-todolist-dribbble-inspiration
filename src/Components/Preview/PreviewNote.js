@@ -10,13 +10,13 @@ export const PreviewContainer = styled.div`
     padding: 3rem;
 `;
 export const NoteDate = styled.h5`
-
+    margin-bottom: 3vh;
 `;
 export const NoteName = styled.h3`
-
+    margin-bottom: 15vh;
 `;
 export const NoteText = styled.p`
-
+    
 `;
 
 const PreviewNote =({noteText,noteName, noteDate})=>{

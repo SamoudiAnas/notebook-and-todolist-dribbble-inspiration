@@ -10,6 +10,12 @@ export const NoteContainer = styled.div`
     padding-left: 3rem;
     padding-right: 3rem;
     position: relative;
+    &::after{
+        content: "";
+        position: absolute;
+        z-index: 999;
+        background-color: white;
+    }
 `;
 
 export const NoteName = styled.h3`
@@ -42,13 +48,23 @@ font-weight: 400;
 font-size: 0.9rem;
 `;
 
-const Note =({name,text,date}) =>{
+const Note =({name,text,date,previewState,setPreviewState,selectedNote, setSelectedNote}) =>{
 
+    const NoteSelected=(e)=>{
+        let note={
+            noteName:name,
+            noteText:text,
+            noteDate:date
+        }
+        setPreviewState("A Note is Selected");
+        setSelectedNote(note);
+        console.log(note);
 
+    }
 
 
     return(
-        <NoteContainer onClick={}>
+        <NoteContainer onClick={NoteSelected}>
             <NoteName>{name}</NoteName>
             <NoteDate>{date}</NoteDate>
             <NoteText>{text}</NoteText>

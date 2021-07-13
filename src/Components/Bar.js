@@ -20,12 +20,12 @@ export const NotesContainer = styled.div`
     background-color: #022b3a;
 `;
 
-const Bar=({notes,previewState, setPreviewState})=>{
+const Bar=({notes,previewState, setPreviewState,selectedNote,setSelectedNote})=>{
     
 
     return(
         <BarContainer>
-            <NoteOptions />
+            <NoteOptions setPreviewState={setPreviewState}/>
             
             <NotesContainer>
                 {
@@ -35,6 +35,8 @@ const Bar=({notes,previewState, setPreviewState})=>{
                             name={note.name}
                             text={note.text}
                             date={note.date}
+                            selectedNote={selectedNote}
+                            setSelectedNote={setSelectedNote}
                             previewState={previewState}
                             setPreviewState={setPreviewState}
                         />

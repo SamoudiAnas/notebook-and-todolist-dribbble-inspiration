@@ -46,13 +46,13 @@ export const Label = styled.label`
   &::after {
     content: "";
     position: absolute;
-    bottom: -2px;
+    bottom: -1px;
     left: 0;
     height: 30%;
     width: 100%;
     border-bottom: 3px solid #266dd3;
     transform: translateX(-100%);
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
   }
 `;
 
@@ -61,7 +61,7 @@ export const Span = styled.span`
   bottom: 5px;
   left: 0;
   font-size: 1rem;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 `;
 export const NoteName = styled.input`
   width: 100%;

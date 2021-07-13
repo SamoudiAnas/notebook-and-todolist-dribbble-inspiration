@@ -12,7 +12,7 @@ function App() {
     ###########################################################################################
 
   */
-    
+    var preview;
 
 
   const [noteName, setNoteName] = useState("");
@@ -25,13 +25,7 @@ function App() {
   const [notes, setNotes] = useState([]);
   
   const [view, setView] = useState();
-  /*
-    ###########################################################################################
-    ######################                    useEffect                   ######################
-    ###########################################################################################
-
-  */
-
+  
 
    /* useEffect(() => {
       setPreviewState(previewState);
@@ -39,22 +33,38 @@ function App() {
     }, [previewState]);
   
 */
-const firstView=()=>{
-  if(previewState === "Add note"){
-    {
-        setView(<AddNote 
-          noteName={noteName} setNoteName={setNoteName}
-          noteText={noteText} setNoteText={setNoteText} 
-          notes={notes} setNotes={setNotes}>
-      </AddNote>);
-                     }
-}
-}
+
+
+const changeView=()=>{
+  if(previewState =="Selected"){
+    preview=
+          <PreviewNote selectedNote={selectedNote} />
+      ;
+      return preview;}
+   else if(previewState == "Add note"){
+    preview=
+    <AddNote 
+      noteName={noteName} setNoteName={setNoteName}
+      noteText={noteText} setNoteText={setNoteText} 
+      notes={notes} setNotes={setNotes}>
+  </AddNote>;
+  return preview;
+   }   
+  
+  
+ 
+};
+
+/*
+    ###########################################################################################
+    ######################                    useEffect                   ######################
+    ###########################################################################################
+    EACH TIME WE CHANGE FROM ADD NOTE TO PREVIEW NOTE THIS WILL BE CALLED
+  */
 
 useEffect(() => {
- firstView();
-}, []);
-
+  changeView();
+}, [previewState]);
 
 
 /*
@@ -70,20 +80,16 @@ useEffect(() => {
                 1- ADD NOTE
                 2- PREVIEW A CLICKED/SELECTED NOTE
 */
-      
-      
-    /*else if(previewState === "Preview note"){
-          preview=<PreviewNote
-                          note
-                          
-                          ></PreviewNote>
-    }*/
-
+  preview=<AddNote 
+  noteName={noteName} setNoteName={setNoteName}
+  noteText={noteText} setNoteText={setNoteText} 
+  notes={notes} setNotes={setNotes}>
+</AddNote>;
   return (<>
     <Sidebar />
-    <Bar notes={notes} previewState={previewState} setPreviewState={setPreviewState}/>
+    <Bar notes={notes} previewState={previewState} selectedNote={selectedNote} setSelectedNote={setSelectedNote} setPreviewState={setPreviewState}/>
     {
-      view
+      changeView()
     }
  </> );
 }

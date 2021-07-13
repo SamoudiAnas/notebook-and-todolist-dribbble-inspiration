@@ -37,13 +37,16 @@ color: #bbb;
 `;
 
 
-
-const NoteOptions =()=>{
+const NoteOptions =({setPreviewState})=>{
+    const BringAddNote=()=> {
+        setPreviewState("Add note");
+    }
+    
     return(
         <NoteOptionsContainer>
             <Date>10 Jully 2021</Date>
             <P>Lorem ispum dolor</P>
-            <Button>Add Note</Button>
+            <Button onClick={BringAddNote}>Add Note</Button>
         </NoteOptionsContainer>
     );
 }

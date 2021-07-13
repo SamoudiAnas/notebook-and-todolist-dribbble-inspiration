@@ -33,6 +33,7 @@ export const NoteText= styled.p`
     -webkit-box-orient: vertical;
     -webkit-line-clamp:2;
     overflow: hidden;
+    word-wrap:break-word;
     text-overflow: ellipsis;
     font-weight: 400;
 `;
@@ -56,9 +57,10 @@ const Note =({name,text,date,previewState,setPreviewState,selectedNote, setSelec
             noteText:text,
             noteDate:date
         }
-        setPreviewState("A Note is Selected");
         setSelectedNote(note);
-        console.log(note);
+        setPreviewState("Selected");
+        
+        
 
     }
 

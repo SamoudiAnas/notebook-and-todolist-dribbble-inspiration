@@ -9,6 +9,9 @@ import settingsIcon from '../images/settings.svg';
 //components
 import NavElement from "./NavElement";
 
+//use selector
+import { useSelector } from "react-redux";
+
 
 export const SideBarContainer= styled.div`
     position: absolute;
@@ -47,12 +50,14 @@ export const Name= styled.h3`
 
 
 const Sidebar =()=>{
+    const noteCounter = useSelector(state => state.NoteCounterReducer);
+    console.log(noteCounter)
     const Navs=[
         {
             key:1,
             icon:notesIcon,
             name:"NoteBook",
-            count:2
+            count:noteCounter
         },
         {
             key:2,

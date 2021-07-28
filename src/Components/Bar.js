@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Note from "./Notes/Note";
 import NoteOptions from "./Notes/NoteOptions";
 import React from "react";
+import { useSelector } from "react-redux";
 export const BarContainer = styled.div`
     position: absolute;
     left: 300px;
@@ -20,9 +21,9 @@ export const NotesContainer = styled.div`
     background-color: #022b3a;
 `;
 
-const Bar=({notes,previewState, setPreviewState,selectedNote,setSelectedNote})=>{
-    
-
+const Bar=({ previewState, setPreviewState,selectedNote,setSelectedNote})=>{
+    const notes = useSelector(state => state.NoteReducer);
+   
     return(
         <BarContainer>
             <NoteOptions setPreviewState={setPreviewState}/>

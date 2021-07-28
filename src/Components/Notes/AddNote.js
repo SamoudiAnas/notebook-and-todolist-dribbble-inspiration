@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
-
+import { AddNoteAction } from "../../actions/AddNoteActions";
+import { NoteDate } from "./Note";
+import { useDispatch } from "react-redux";
+import { NoteCounterIncrementAction } from "../../actions/NoteCounterIncrementAction";
 /*
 ###########################################################################################
 ######################                    Styling                   #######################
@@ -241,6 +244,17 @@ THIS FUNCTION UPDATES THE VALUE OF THE NOTE TEXT
         date:"10 Mar 2021"
       },
     ]);
+
+    //redux trial
+    const object = {
+      id: Math.random() * 1000,
+      name: noteName,
+      text: noteText, 
+      date:"10 Mar 2021"
+    };
+    addNoteWithRedux(object);
+    
+
     //THIS FUNCTION SET VALUES BACK TO EMPTY
     cancelNote();
     
@@ -260,10 +274,14 @@ const cancelNote = (e) => {
     setNoteName("");
     setNoteText("");
   };
+  const dispath = useDispatch();
 
-
-
-
+/* REDUX ADD NOTE */
+const addNoteWithRedux = (object)=>{
+  
+  dispath(AddNoteAction(object));
+  dispath(NoteCounterIncrementAction());
+} 
 
 
 

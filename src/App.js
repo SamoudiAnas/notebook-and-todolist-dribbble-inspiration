@@ -1,10 +1,12 @@
 import React,{useState, useEffect} from 'react';
 import './App.css';
-import Bar from './Components/Bar';
+import NoteBar from './Components/NoteBar';
 import  AddNote  from './Components/Notes/AddNote';
 import Sidebar from './Components/Sidebar';
 import PreviewNote from './Components/Preview/PreviewNote';
-
+import { useSelector } from 'react-redux';
+import TodoBar from './Components/Todos/TodoBar';
+import Todos from './Components/Todos/Todos';
 function App() {
   /*
     ###########################################################################################
@@ -12,9 +14,9 @@ function App() {
     ###########################################################################################
 
   */
-    var preview;
+    var preview, globalView;
 
-
+    const globalViewState = useSelector(state => state.GlobalViewState);
   const [noteName, setNoteName] = useState("");
   const [noteText, setNoteText] = useState("");
   
@@ -24,7 +26,7 @@ function App() {
   
   const [notes, setNotes] = useState([]);
   
-  const [view, setView] = useState();
+  const [todoText, setTodoText] = useState("");
   
 
    /* useEffect(() => {
@@ -55,6 +57,32 @@ const changeView=()=>{
  
 };
 
+
+const changeGlobalView=()=>{
+  
+  if(globalViewState =="SHOW_NOTE_VIEW"){
+    globalView=
+          <PreviewNote selectedNote={selectedNote} />
+      ;
+      return preview;}
+   else if(previewState == "Add note"){
+    preview=
+    <AddNote 
+      noteName={noteName} setNoteName={setNoteName}
+      noteText={noteText} setNoteText={setNoteText} 
+      notes={notes} setNotes={setNotes}>
+  </AddNote>;
+  return preview;
+   }   
+
+};
+
+
+
+
+
+
+
 /*
     ###########################################################################################
     ######################                    useEffect                   ######################
@@ -65,7 +93,9 @@ const changeView=()=>{
 useEffect(() => {
   changeView();
 }, [previewState]);
-
+useEffect(() => {
+  changeGlobalView();
+}, [previewState]);
 
 /*
     ###########################################################################################
@@ -87,10 +117,12 @@ useEffect(() => {
 </AddNote>;
   return (<>
     <Sidebar />
-    <Bar notes={notes} previewState={previewState} selectedNote={selectedNote} setSelectedNote={setSelectedNote} setPreviewState={setPreviewState}/>
+    {/*<NoteBar notes={notes} previewState={previewState} selectedNote={selectedNote} setSelectedNote={setSelectedNote} setPreviewState={setPreviewState}/>*/}
+    <TodoBar todoText={todoText} setTodoText={setTodoText}></TodoBar>
     {
-      changeView()
+      /*changeView()*/
     }
+    <Todos todoText={todoText} setTodoText={setTodoText}></Todos>
  </> );
 }
 

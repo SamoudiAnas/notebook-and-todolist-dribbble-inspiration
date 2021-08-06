@@ -11,7 +11,9 @@ import NavElement from "./NavElement";
 
 //use selector
 import { useSelector } from "react-redux";
-
+import { ShowNoteView } from "../actions/SwitchView/ShowNoteView";
+import { ShowTodoView } from "../actions/SwitchView/ShowTodoView";
+import { useDispatch } from "react-redux";
 
 export const SideBarContainer= styled.div`
     position: absolute;
@@ -46,29 +48,40 @@ export const Name= styled.h3`
     margin: 2rem 4rem 4rem 4rem;
 `;
 
+//functions
 
 
 
 const Sidebar =()=>{
+    const dispatch = useDispatch();
+    const switchToNoteView = () =>{
+        dispatch(ShowNoteView());
+    }
+    const switchToTodoView = () =>{
+        dispatch(ShowTodoView());
+    }
     const noteCounter = useSelector(state => state.NoteCounterReducer);
-    console.log(noteCounter)
+    const globalViewState = useSelector(state => state.GlobalView);
+    
     const Navs=[
         {
             key:1,
             icon:notesIcon,
             name:"NoteBook",
-            count:noteCounter
+            count:noteCounter,
+            func : switchToNoteView
         },
         {
             key:2,
             icon:todoIcon,
             name:"To Do List",
-            count:10
+            count:10,
+            func : switchToTodoView
         },
         {
             key: 3,
             icon: settingsIcon,
-            name:"Settings",
+            name:globalViewState,
             count:0
         }
     ];
@@ -81,6 +94,7 @@ const Sidebar =()=>{
             {
                 Navs.map((Nav)=>(
                     <NavElement
+                        onClick={Nav.func}
                         image={Nav.icon}
                         name={Nav.name}
                         count={Nav.count} />

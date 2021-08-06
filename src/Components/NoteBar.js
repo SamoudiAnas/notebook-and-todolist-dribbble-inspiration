@@ -21,13 +21,12 @@ export const NotesContainer = styled.div`
     background-color: #022b3a;
 `;
 
-const Bar=({ previewState, setPreviewState,selectedNote,setSelectedNote})=>{
+const NoteBar=({ previewState, setPreviewState,selectedNote,setSelectedNote})=>{
     const notes = useSelector(state => state.NoteReducer);
    
     return(
         <BarContainer>
-            <NoteOptions setPreviewState={setPreviewState}/>
-            
+            <NoteOptions setPreviewState={setPreviewState}/> 
             <NotesContainer>
                 {
                     notes.map((note)=>(
@@ -41,13 +40,10 @@ const Bar=({ previewState, setPreviewState,selectedNote,setSelectedNote})=>{
                             previewState={previewState}
                             setPreviewState={setPreviewState}
                         />
-
                     ))
-                }
-            
+                }  
             </NotesContainer>
-
         </BarContainer>
     );
 }
-export default Bar; 
+export default NoteBar; 

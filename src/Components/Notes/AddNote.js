@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
-import { AddNoteAction } from "../../actions/AddNoteActions";
+import { AddNoteAction } from "../../actions/Notes/AddNoteActions";
 import { NoteDate } from "./Note";
 import { useDispatch } from "react-redux";
-import { NoteCounterIncrementAction } from "../../actions/NoteCounterIncrementAction";
+import { NoteCounterIncrementAction } from "../../actions/Notes/NoteCounterIncrementAction";
 /*
 ###########################################################################################
 ######################                    Styling                   #######################
@@ -278,7 +278,6 @@ const cancelNote = (e) => {
 
 /* REDUX ADD NOTE */
 const addNoteWithRedux = (object)=>{
-  
   dispath(AddNoteAction(object));
   dispath(NoteCounterIncrementAction());
 } 

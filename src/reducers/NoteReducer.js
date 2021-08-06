@@ -1,13 +1,7 @@
-import { useDispatch } from "react-redux";
-import { NoteCounterIncrementAction } from "../actions/NoteCounterIncrementAction";
 
-var notes = [];
-const NoteReducer = (state = notes,action)=>{
-    
+const NoteReducer = (state = [],action)=>{
     switch(action.type){
         case 'ADD_NOTE':
-            
-            console.log(action.object);
             //Increment();
             return [
                 ...state,
@@ -18,8 +12,5 @@ const NoteReducer = (state = notes,action)=>{
             return state     
     }
 }
-const Increment = ()=>{
-    const dispatch = useDispatch();
-    dispatch(NoteCounterIncrementAction());
-  } 
+
 export default NoteReducer;

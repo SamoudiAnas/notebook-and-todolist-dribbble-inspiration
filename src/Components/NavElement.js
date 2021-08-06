@@ -7,7 +7,9 @@ export const FlexContainer = styled.div`
     margin: 2rem 0;
     margin-left: 3.5rem;
     position: relative;
-    
+    &:hover {
+        cursor: pointer;
+    }
 `;
 
 export const NavIcon = styled.img`
@@ -44,9 +46,9 @@ export const NavCount = styled.h5`
 
 `;
 
-const NavElement =({image,name,count})=>{
+const NavElement =({image,name,count,onClick})=>{
     return(
-        <FlexContainer>
+        <FlexContainer onClick={onClick}>
             <NavIcon src={image}/>
             <NavName>{name}</NavName>
             <NavCount count={count}>{count}</NavCount>

@@ -22,6 +22,7 @@ export const TodoDate = styled.h3`
     margin-left: 1rem;
     color: white;
     font-weight: 700;
+    padding: 1rem ;
     font-size: 1.1rem;
 `;
 

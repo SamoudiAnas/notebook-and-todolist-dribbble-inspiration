@@ -36,11 +36,7 @@ const TodoBar=()=>{
                        theDate = todos[todosDate].date;
                 }
         }
-        console.log("im inside check if");
-        console.log(todos[todosDate]);
         
-        
-        console.log(theDate);
     };
     useEffect(() => {
         checkIfExists();

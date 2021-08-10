@@ -1,9 +1,23 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import Todo from "./Todo";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { AddTodoAction } from "../../actions/Todos/AddTodoAction";
+import { AllTodos } from "../../actions/Todos/TodoFilter/AllTodos";
+import { CompletedTodos} from "../../actions/Todos/TodoFilter/CompletedTodos";
+import { UncompletedTodos } from "../../actions/Todos/TodoFilter/UncompletedTodos";
+import TodoFilterHandler from "../../reducers/Todo/TodoFilterReducer";
+import { DefaultTodoFilter } from "../../actions/Todos/TodoFilter/DefaultTodoFilter";
+
+
+
+
+
+
+
+
+
 /*
 ###########################################################################################
 ######################                    Styling                   #######################
@@ -13,8 +27,8 @@ import { AddTodoAction } from "../../actions/Todos/AddTodoAction";
 export const AddNoteContainer = styled.div`
   position: absolute;
   height: 100vh;
-  width: calc(100% - 50vh - 300px);
-  left: calc(50vh + 300px);
+  width: calc(100%  - 300px);
+  left: calc(300px);
   padding: 3rem;
 `;
 
@@ -27,7 +41,7 @@ export const TodolistText = styled.h3`
   color: #022b3a;
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 15%;
+  margin-bottom: 5vh;
 `;
 
 
@@ -128,22 +142,6 @@ export const TodosContainer = styled.div`
   margin-top: 5vh;
 `;
 
-const Todos = ({todoText, setTodoText}) => {
-
-
-  const todoTextHandler = (e) =>{
-    setTodoText(e.target.value);
-  }
-
-
-
-    //the logic
-    const dispatch = useDispatch();
-    const addTodo =(e)=>{
-      e.preventDefault();
-      dispatch(AddTodoAction(todoText));
-      console.log("Touched");
-    }
 
 
 
@@ -162,87 +160,142 @@ const Todos = ({todoText, setTodoText}) => {
 
 
 
+/*
+###########################################################################################
+######################                    Main                      #######################
+###########################################################################################
+
+*/
 
 
+ 
 
 
+const Todos = ({ todoText, setTodoText }) => {
 
-
-
-
-
-
-
-
-
-
-
-    const todos = useSelector(state => state.TodoReducer);
-    const [todosArray, setTodosArray] = useState([])
-    
-        useEffect(() => {
-      updateTodo();
-    }, [todos])
-    const updateTodo= () =>{
-        if(todos.length === 0)
-        {
-          setTodosArray(["nothing"]);
-          console.log(todosArray);
-        }
-        else
-        {
-          setTodosArray([...todos[0].todolist]);
-          console.log(todosArray);
-        }
-    }
-    
-
-
-
-
-
-
-
-
-
-
-  return (
-      <AddNoteContainer>
-      <NoteNameContainer>
-        <TodolistText>TodoList</TodolistText>
-        <NoteName
-          onChange={todoTextHandler}
-          type="text"
-          required
-        />
-        <Label>
-          <Span>Your Todo</Span>
-        </Label>
-      </NoteNameContainer>
-      
-      <FlexContainer>
-      
-      <Button onClick={addTodo}>Add</Button>
-      
-      <Select name="cars" id="cars">
-          <option value="All">All</option>
-          <option value="Completed">Completed</option>
-          <option value="Uncompleted">Uncompleted</option>
-      </Select>
+        //Variables
+        const todos = useSelector(state => state.TodoReducer);
+        const [todosArray, setTodosArray] = useState([])
+        const dispatch = useDispatch();
+        
      
-      </FlexContainer>
+        //useState + useEffect
+        const [filteredTodos,setFilteredTodos] = useState([]);
+        const theArrayOfTodos = useSelector(state => state.TodoFilterHandler);
+        
 
-      <TodosContainer>
-      {
-                    todosArray.map((todo)=>(
-                        <Todo text={todo} />
-                    ))
-                    
+        //this sets the todo text from the input whenever we type something
+        const todoTextHandler = (e) => {
+                setTodoText(e.target.value);
         }
-      </TodosContainer>
-      
-    </AddNoteContainer>
-  );
+
+
+
+        //this function triggers the "Todo Reducer" to add a new value
+        const addTodo = (e) => {
+                e.preventDefault();
+                let object = {
+                        key: Math.random() * 100,
+                        todo: todoText,
+                        status: "Uncompleted"
+                }
+                dispatch(AddTodoAction(object));
+        }
+
+
+
+        //this function update the todolist everytime we add/delete from it
+        useEffect(() => {
+                updateTodo();
+               
+        }, [todos])
+
+        const updateTodo = () => {
+                if (todos.length === 0) 
+                {
+                        setTodosArray(["Write your first todo"]);
+                        console.log(todosArray);
+                }
+                else 
+                {
+                        let array = [];
+                        for (let i = 0; i < todos[0].todolist.length; i++) {
+                                array.push(todos[0].todolist[i]);
+                        }
+                        setTodosArray([...array]);
+                        setFilteredTodos([...array]);
+                        let index = 0;
+                        if(index == 0){
+                                dispatch(DefaultTodoFilter(array));
+                                index++;
+                        }
+                        console.log(array);
+                }
+        }
+
+
+        //status filter handler
+        const statusHandler = (e) =>{
+                switch(e.target.value){
+                        case "Completed":
+                                dispatch(CompletedTodos(filteredTodos));
+                                break;
+                        case "Uncompleted":
+                                dispatch(UncompletedTodos(filteredTodos));
+                                break;
+                        default:
+                                dispatch(AllTodos(filteredTodos));
+                                break;                
+                }
+               
+               
+        }
+
+
+
+
+
+
+
+
+        //the view render
+        return (
+                <AddNoteContainer>
+                        <NoteNameContainer>
+                                <TodolistText>TodoList</TodolistText>
+                                <NoteName
+                                        onChange={todoTextHandler}
+                                        type="text"
+                                        required
+                                />
+                                <Label>
+                                        <Span>Your Todo</Span>
+                                </Label>
+                        </NoteNameContainer>
+
+                        <FlexContainer>
+
+                                <Button onClick={addTodo}>Add</Button>
+
+                                <Select onChange={statusHandler} name="cars" id="cars">
+                                        <option value="All">All</option>
+                                        <option value="Completed">Completed</option>
+                                        <option value="Uncompleted">Uncompleted</option>
+                                </Select>
+
+                        </FlexContainer>
+
+                        <TodosContainer>
+                                {
+                                        theArrayOfTodos.map((todo) => (
+                                                <Todo todo={todo} />
+                                        ))
+
+                                }
+                        </TodosContainer>
+
+                </AddNoteContainer>
+        );
 };
 
 export default Todos;

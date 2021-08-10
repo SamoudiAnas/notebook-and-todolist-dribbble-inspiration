@@ -3,6 +3,7 @@ import NoteCounterReducer from './NoteCounterReducer';
 import GlobalView from './GlobalView';
 import TodoCounterReducer from './TodoCounterReducer';
 import TodoReducer from './TodoReducer';
+import TodoFilterHandler from './Todo/TodoFilterReducer';
 import {combineReducers} from 'redux';
 
 const allReducers = combineReducers({
@@ -10,6 +11,7 @@ const allReducers = combineReducers({
     NoteCounterReducer:NoteCounterReducer,
     TodoCounterReducer : TodoCounterReducer,
     TodoReducer : TodoReducer,
+    TodoFilterHandler: TodoFilterHandler,
     GlobalView : GlobalView
 })
 

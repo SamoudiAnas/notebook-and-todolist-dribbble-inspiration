@@ -9,7 +9,8 @@ import { CompletedTodos} from "../../actions/Todos/TodoFilter/CompletedTodos";
 import { UncompletedTodos } from "../../actions/Todos/TodoFilter/UncompletedTodos";
 import TodoFilterHandler from "../../reducers/Todo/TodoFilterReducer";
 import { DefaultTodoFilter } from "../../actions/Todos/TodoFilter/DefaultTodoFilter";
-
+import { TodoIncrement } from "../../actions/Todos/TodoIncrementAction";
+import TodoReducer from "../../reducers/TodoReducer";
 
 
 
@@ -174,15 +175,18 @@ export const TodosContainer = styled.div`
 const Todos = ({ todoText, setTodoText }) => {
 
         //Variables
-        const todos = useSelector(state => state.TodoReducer);
+        
         const [todosArray, setTodosArray] = useState([])
         const dispatch = useDispatch();
         
      
         //useState + useEffect
         const [filteredTodos,setFilteredTodos] = useState([]);
-        const theArrayOfTodos = useSelector(state => state.TodoFilterHandler);
-        
+        const theArrayOfTodos = useSelector(state => state.TodoReducer);
+        var completedTodos = [];
+        var uncompletedTodos = [];
+        //this is the array that is going to be changing whenever we hange the filter
+        const [shownArray,setShownArray] = useState([]);
 
         //this sets the todo text from the input whenever we type something
         const todoTextHandler = (e) => {
@@ -200,51 +204,49 @@ const Todos = ({ todoText, setTodoText }) => {
                         status: "Uncompleted"
                 }
                 dispatch(AddTodoAction(object));
+                dispatch(TodoIncrement());
         }
 
 
 
         //this function update the todolist everytime we add/delete from it
         useEffect(() => {
-                updateTodo();
-               
-        }, [todos])
+                updateTodo();     
+        }, [theArrayOfTodos])
 
         const updateTodo = () => {
-                if (todos.length === 0) 
-                {
-                        setTodosArray(["Write your first todo"]);
-                        console.log(todosArray);
+                
+                setShownArray([...theArrayOfTodos]);
+                
+                
+                let index = 0;
+                if(index == 0){
+                        dispatch(DefaultTodoFilter(theArrayOfTodos));
+                        index++;
                 }
-                else 
-                {
-                        let array = [];
-                        for (let i = 0; i < todos[0].todolist.length; i++) {
-                                array.push(todos[0].todolist[i]);
-                        }
-                        setTodosArray([...array]);
-                        setFilteredTodos([...array]);
-                        let index = 0;
-                        if(index == 0){
-                                dispatch(DefaultTodoFilter(array));
-                                index++;
-                        }
-                        console.log(array);
-                }
+                console.log("updated");
         }
 
 
         //status filter handler
         const statusHandler = (e) =>{
+                let array = [];
                 switch(e.target.value){
                         case "Completed":
-                                dispatch(CompletedTodos(filteredTodos));
+                                 array = [...theArrayOfTodos.filter((todo) => todo.status === "Completed")];
+                                 console.log(array);
+                                 completedTodos = [...array];
+                                console.log(completedTodos);
+                                setShownArray(completedTodos); 
+                               
                                 break;
                         case "Uncompleted":
-                                dispatch(UncompletedTodos(filteredTodos));
+                                array = [...theArrayOfTodos.filter((todo) => todo.status === "Uncompleted")];
+                                uncompletedTodos = [...array];
+                                setShownArray(uncompletedTodos); 
                                 break;
                         default:
-                                dispatch(AllTodos(filteredTodos));
+                                setShownArray([...theArrayOfTodos]); 
                                 break;                
                 }
                
@@ -287,7 +289,7 @@ const Todos = ({ todoText, setTodoText }) => {
 
                         <TodosContainer>
                                 {
-                                        theArrayOfTodos.map((todo) => (
+                                        shownArray.map((todo) => (
                                                 <Todo todo={todo} />
                                         ))
 

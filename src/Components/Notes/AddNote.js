@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import React, { useState, useEffect } from "react";
 import { AddNoteAction } from "../../actions/Notes/AddNoteActions";
-import { NoteDate } from "./Note";
 import { useDispatch } from "react-redux";
 import { NoteCounterIncrementAction } from "../../actions/Notes/NoteCounterIncrementAction";
 /*

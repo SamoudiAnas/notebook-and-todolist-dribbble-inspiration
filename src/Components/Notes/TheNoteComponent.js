@@ -33,13 +33,13 @@ const TheNoteComponent = () => {
 
         //this function change the preview variable according to the situation
         const changeView = () => {
-                if (previewState == "Selected") {
+                if (previewState === "Selected") {
                         preview =
                                 <PreviewNote selectedNote={selectedNote} />
                                 ;
                         return preview;
                 }
-                else if (previewState == "Add note") {
+                else if (previewState === "Add note") {
                         preview =
                                 <AddNote
                                         noteName={noteName} setNoteName={setNoteName}

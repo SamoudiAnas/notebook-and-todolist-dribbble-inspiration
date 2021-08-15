@@ -61,7 +61,8 @@ const Sidebar =()=>{
         dispatch(ShowTodoView());
     }
     const noteCounter = useSelector(state => state.NoteCounterReducer);
-    const globalViewState = useSelector(state => state.GlobalView);
+    const todoCounter = useSelector(state => state.TodoCounterReducer);
+    
     
     const Navs=[
         {
@@ -75,15 +76,10 @@ const Sidebar =()=>{
             key:2,
             icon:todoIcon,
             name:"To Do List",
-            count:10,
+            count:todoCounter,
             func : switchToTodoView
-        },
-        {
-            key: 3,
-            icon: settingsIcon,
-            name:globalViewState,
-            count:0
         }
+        
     ];
     return(
         <SideBarContainer>

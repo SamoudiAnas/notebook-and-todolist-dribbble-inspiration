@@ -5,6 +5,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { DeleteTodo } from "../../actions/Todos/DeleteTodo";
 import { TodoStatusCompleted } from "../../actions/Todos/TodoStatusCompleted";
+import { TodoDecrement } from "../../actions/Todos/TodoDecrement";
+import  './Todos.css';
 import moment from "moment";
 
 
@@ -53,8 +55,6 @@ export const Delete = styled.a`
     }
 `;
 export const P = styled.p`
-    text-decoration: ${props => props.lineThrought};
-    opacity: ${props => props.opacity};
 `;
 
 
@@ -63,35 +63,32 @@ export const P = styled.p`
 
 const Todo = ({ todo }) => {
     const [doneButton, setDoneButton] = useState(false);
-    const [lineThrought, setLineThrought] = useState("none");
-    const [opacity, setOpacity] = useState("1");
     const dispatch = useDispatch();
 
     const done = (key) =>{
         if(doneButton == false){
-            setDoneButton(true);
-             setLineThrought("line-through"); 
-             setOpacity("0.6");
-             console.log("true")
-             dispatch(TodoStatusCompleted("August 10, 2021", key));
+            setDoneButton(true); 
+            dispatch(TodoStatusCompleted(moment().format('LL'), key));
         }
         if(doneButton == true){
             setDoneButton(false);
-            setLineThrought("none"); 
-            setOpacity("1"); 
-             console.log("false")
-             dispatch(TodoStatusCompleted("August 10, 2021", key));
+            dispatch(TodoStatusCompleted(moment().format('LL'), key));
         }
     }
 
 
-    const deleteTodo = (theDate, key) =>{
-        console.log("delete clicked!")
-        dispatch(DeleteTodo(theDate,key));
+    //this function deletes todo from the list
+    const deleteTodo = (key) =>{
+        dispatch(DeleteTodo(key));
+        dispatch(TodoDecrement());
     }
    
 
-
+    const checkIfCompleted=()=>{
+        if(todo.status === "Completed"){
+            return true;
+        }
+    }
 
 
 
@@ -100,10 +97,10 @@ const Todo = ({ todo }) => {
 
         <TodoContainer>
             <Rectangle />
-            <P lineThrought={lineThrought} opacity={opacity}>{todo.todo}</P>
+            <p className={` ${checkIfCompleted() ? 'invalid':""}`}>{todo.todo}</p>
             <TodoSettings>
                 <Done onClick={()=> done(todo.key)}><FontAwesomeIcon icon={faCheck} /></Done>
-                <Delete onClick={ () => deleteTodo("August 10, 2021",todo.key) }><FontAwesomeIcon icon={faTrashAlt} /></Delete>
+                <Delete onClick={ () => deleteTodo(todo.key) }><FontAwesomeIcon icon={faTrashAlt} /></Delete>
             </TodoSettings>
         </TodoContainer>
     );

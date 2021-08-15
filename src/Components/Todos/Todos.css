@@ -1,24 +1,4 @@
-/* Custom Select */
-.select {
-    margin: 1rem;
-    position: relative;
-    overflow: hidden;
-  }
-  select {
-    color: #0F2027;
-    font-family: "Poppins", sans-serif;
-    font-size: 1rem;
-    cursor: pointer;
-    width: 12rem;
-  }
-
-.select::after {
-    content: "\F078";
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 1rem;
-    background: #d00000;
-    cursor: pointer;
-    pointer-events: none;
-  }
+.invalid{
+  text-decoration: line-through;
+  opacity: 0.5;
+}
